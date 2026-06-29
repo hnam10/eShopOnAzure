@@ -36,20 +36,20 @@ stages:
         echo "Tests passed"
       displayName: Test
 
-- stage: Deploy
-  displayName: Deploy Stage
-  dependsOn: Test
-  condition: succeeded()
-  jobs:
-  - job: DeployJob
-    pool:
-      name: PRO690
-      demands:
-      - agent.name -equals hansol-ubuntu
-    steps:
-    - script: |
-        echo "=== DEPLOY STAGE ==="
-        echo "Agent Name: $(Agent.Name)"
-        echo "Deploying on self-hosted VM agent..."
-        echo "Deployment completed"
-      displayName: Deploy
+# - stage: Deploy
+#   displayName: Deploy Stage
+#   dependsOn: Test
+#   condition: succeeded()
+#   jobs:
+#   - job: DeployJob
+#     pool:
+#       name: PRO690
+#       demands:
+#       - agent.name -equals hansol-ubuntu
+#     steps:
+#     - script: |
+#         echo "=== DEPLOY STAGE ==="
+#         echo "Agent Name: $(Agent.Name)"
+#         echo "Deploying on self-hosted VM agent..."
+#         echo "Deployment completed"
+#       displayName: Deploy
