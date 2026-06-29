@@ -1,0 +1,25 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: |
+    echo "=== MICROSOFT HOSTED AGENT ==="
+    echo "Agent Name: $(Agent.Name)"
+    echo "OS: $(Agent.OS)"
+    uname -a
+  displayName: 'Show Agent Info'
+
+- script: |
+    echo "Running build simulation..."
+    sleep 3
+    echo "Build completed successfully"
+  displayName: 'Run Build'
+
+- script: |
+    echo "Running test simulation..."
+    sleep 3
+    echo "All tests passed"
+  displayName: 'Run Tests'
