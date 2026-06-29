@@ -42,10 +42,8 @@ stages:
   condition: succeeded()
   jobs:
   - job: DeployJob
-    pool:
-      name: PRO690
-      demands:
-      - agent.name -equals hansol-ubuntu
+  pool:
+    vmImage: ubuntu-latest
     steps:
     - script: |
         echo "=== DEPLOY STAGE ==="
