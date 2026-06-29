@@ -9,7 +9,7 @@ stages:
     pool:
       name: PRO690
       demands:
-      - agent.name -equals hansol-mac
+      - agent.name -equals hansol-ubuntu
     steps:
     - script: |
         echo "=== BUILD STAGE ==="
@@ -27,7 +27,7 @@ stages:
     pool:
       name: PRO690
       demands:
-      - agent.name -equals hansol-mac
+      - agent.name -equals hansol-ubuntu
     steps:
     - script: |
         echo "=== TEST STAGE ==="
@@ -43,11 +43,13 @@ stages:
   jobs:
   - job: DeployJob
     pool:
-      vmImage: ubuntu-latest
+      name: PRO690
+      demands:
+      - agent.name -equals hansol-ubuntu
     steps:
     - script: |
         echo "=== DEPLOY STAGE ==="
         echo "Agent Name: $(Agent.Name)"
-        echo "Deploying with Microsoft-hosted Azure agent..."
+        echo "Deploying on self-hosted VM agent..."
         echo "Deployment completed"
       displayName: Deploy
