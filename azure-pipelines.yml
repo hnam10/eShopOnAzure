@@ -1,0 +1,53 @@
+trigger:
+- main
+
+stages:
+- stage: Build
+  displayName: Build Stage
+  jobs:
+  - job: BuildJob
+    pool:
+      name: PRO690
+      demands:
+      - agent.name -equals hansol-mac
+    steps:
+    - script: |
+        echo "=== BUILD STAGE ==="
+        echo "Agent Name: $(Agent.Name)"
+        echo "Building application..."
+        echo "Build completed"
+      displayName: Build
+
+- stage: Test
+  displayName: Test Stage
+  dependsOn: Build
+  condition: succeeded()
+  jobs:
+  - job: TestJob
+    pool:
+      name: PRO690
+      demands:
+      - agent.name -equals hansol-mac
+    steps:
+    - script: |
+        echo "=== TEST STAGE ==="
+        echo "Agent Name: $(Agent.Name)"
+        echo "Running tests..."
+        echo "Tests passed"
+      displayName: Test
+
+- stage: Deploy
+  displayName: Deploy Stage
+  dependsOn: Test
+  condition: succeeded()
+  jobs:
+  - job: DeployJob
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - script: |
+        echo "=== DEPLOY STAGE ==="
+        echo "Agent Name: $(Agent.Name)"
+        echo "Deploying with Microsoft-hosted Azure agent..."
+        echo "Deployment completed"
+      displayName: Deploy
