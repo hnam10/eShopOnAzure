@@ -14,7 +14,6 @@ stages:
     - script: |
         echo "=== BUILD STAGE ==="
         echo "Agent Name: $(Agent.Name)"
-        echo "Building application..."
         echo "Build completed"
       displayName: Build
 
@@ -32,7 +31,6 @@ stages:
     - script: |
         echo "=== TEST STAGE ==="
         echo "Agent Name: $(Agent.Name)"
-        echo "Running tests..."
         echo "Tests passed"
       displayName: Test
 
@@ -41,13 +39,16 @@ stages:
   dependsOn: Test
   condition: succeeded()
   jobs:
-  - job: DeployJob
-  pool:
-    vmImage: ubuntu-latest
-    steps:
-    - script: |
-        echo "=== DEPLOY STAGE ==="
-        echo "Agent Name: $(Agent.Name)"
-        echo "Deploying on self-hosted VM agent..."
-        echo "Deployment completed"
-      displayName: Deploy
+  - deployment: DeployJob
+    environment: production
+    pool:
+      vmImage: ubuntu-latest
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - script: |
+              echo "=== DEPLOY STAGE ==="
+              echo "Agent Name: $(Agent.Name)"
+              echo "Deployment completed"
+            displayName: Deploy
